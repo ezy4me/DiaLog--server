@@ -1,16 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Profile } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
-import { CreateProfileDto, UpdateProfileDto } from './dto/profile.dto';
+import { CreateProfileDto, UpdateProfileDto } from './_dto/profile.dto';
 
 @Injectable()
 export class ProfileService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async findOne(userId: number): Promise<Profile> {
-    return this.databaseService.profile.findUnique({
+  async findOne(userId: number): Promise<Profile | null> {
+    const profile = await this.databaseService.profile.findUnique({
       where: { userId },
     });
+    if (!profile) {
+      throw new NotFoundException('Profile not found');
+    }
+    return profile;
   }
 
   async create(dto: CreateProfileDto): Promise<Profile> {
@@ -28,6 +32,8 @@ export class ProfileService {
   }
 
   async update(userId: number, dto: UpdateProfileDto): Promise<Profile> {
+    await this.findOne(userId);
+
     return this.databaseService.profile.update({
       where: { userId },
       data: {
@@ -41,6 +47,11 @@ export class ProfileService {
   }
 
   async delete(userId: number): Promise<Profile> {
+    const existingProfile = await this.findOne(userId);
+    if (!existingProfile) {
+      throw new NotFoundException('Profile not found');
+    }
+
     return this.databaseService.profile.delete({
       where: { userId },
     });

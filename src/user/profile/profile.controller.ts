@@ -11,7 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
-import { CreateProfileDto, UpdateProfileDto } from './dto/profile.dto';
+import { CreateProfileDto, UpdateProfileDto } from './_dto/profile.dto';
 
 @Controller('profile')
 export class ProfileController {
@@ -25,17 +25,17 @@ export class ProfileController {
 
   @Post()
   @UseInterceptors(ClassSerializerInterceptor)
-  async create(@Body() createProfileDto: CreateProfileDto) {
-    return this.profileService.create(createProfileDto);
+  async create(@Body() dto: CreateProfileDto) {
+    return this.profileService.create(dto);
   }
 
   @Patch(':userId')
   @UseInterceptors(ClassSerializerInterceptor)
   async update(
     @Param('userId', ParseIntPipe) userId: number,
-    @Body() updateProfileDto: UpdateProfileDto,
+    @Body() dto: UpdateProfileDto,
   ) {
-    return this.profileService.update(userId, updateProfileDto);
+    return this.profileService.update(userId, dto);
   }
 
   @Delete(':userId')
