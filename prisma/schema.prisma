@@ -1,0 +1,205 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// ----------------
+/// USER MODEL GROUP
+/// ----------------
+
+model User {
+  id Int @id @default(autoincrement())
+
+  email    String @unique
+  password String
+  role     String @unique
+
+  profile   Profile?
+  profileId Int?
+
+  insulinDosage              InsulinDosage[]
+  bloodSugar                 BloodSugar[]
+  dish                       Dish[]
+  patientPermissonsAsDoctor  PatientPermisson[] @relation("DoctorPermissions")
+  patientPermissonsAsPatient PatientPermisson[] @relation("PatientPermissions")
+  message                    Message[]
+
+  chatAsDoctor  Chat[] @relation("DoctorChat")
+  chatAsPatient Chat[] @relation("PatientChat")
+}
+
+model PatientPermisson {
+  id Int @id @default(autoincrement())
+
+  doctor   User @relation("DoctorPermissions", fields: [doctorId], references: [id])
+  doctorId Int
+
+  patient   User @relation("PatientPermissions", fields: [patientId], references: [id])
+  patientId Int
+}
+
+model Profile {
+  id Int @id @default(autoincrement())
+
+  tokjen String  @unique
+  name   String
+  gender String
+  height Decimal
+  weight Decimal
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+
+  diabetesType   DiabetesType @relation(fields: [diabetesTypeId], references: [id])
+  diabetesTypeId Int
+}
+
+model DiabetesType {
+  id Int @id @default(autoincrement())
+
+  name String @unique
+
+  profile Profile[]
+}
+
+/// --------------------------
+/// INSULIN DOSAGE MODEL GROUP
+/// --------------------------
+
+model InsulinDosage {
+  id Int @id @default(autoincrement())
+
+  value Decimal
+  date  DateTime
+  time  DateTime
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  insulinType   InsulinType @relation(fields: [insulinTypeId], references: [id])
+  insulinTypeId Int
+}
+
+model InsulinType {
+  id            Int             @id @default(autoincrement())
+  insulinDosage InsulinDosage[]
+}
+
+/// -----------------------
+/// BLOOD SUGAR MODEL GROUP
+/// -----------------------
+
+model BloodSugar {
+  id Int @id @default(autoincrement())
+
+  value Decimal
+  date  DateTime
+  time  DateTime
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+/// ----------------
+/// CHAT MODEL GROUP
+/// ----------------
+
+model Chat {
+  id Int @id @default(autoincrement())
+
+  doctor   User @relation("DoctorChat", fields: [doctorId], references: [id])
+  doctorId Int
+
+  patient     User          @relation("PatientChat", fields: [patientId], references: [id])
+  patientId   Int
+  chatHistory ChatHistory?
+}
+
+model ChatHistory {
+  id Int @id @default(autoincrement())
+
+  message   Message @relation(fields: [messageId], references: [id])
+  messageId Int @unique
+  chat      Chat    @relation(fields: [chatId], references: [id])
+  chatId    Int @unique
+}
+
+model Message {
+  id Int @id @default(autoincrement())
+
+  text     String
+  dateTime DateTime
+
+  user        User          @relation(fields: [userId], references: [id])
+  userId      Int
+  chatHistory ChatHistory?
+}
+
+/// ---------------------
+/// NUTRITION MODEL GROUP
+/// ---------------------
+
+model Nutrition {
+  id Int @id @default(autoincrement())
+
+  date DateTime
+  time DateTime
+
+  dish   Dish @relation(fields: [dishId], references: [id])
+  dishId Int
+
+  nutritionType   NutritionType @relation(fields: [nutritionTypeId], references: [id])
+  nutritionTypeId Int
+}
+
+model NutritionType {
+  id Int @id @default(autoincrement())
+
+  name String @unique
+
+  nutrition Nutrition[]
+}
+
+model Dish {
+  id Int @id @default(autoincrement())
+
+  name   String
+  status Boolean
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  foodDishes FoodDishes[]
+  nutrition  Nutrition[]
+}
+
+model Food {
+  id Int @id @default(autoincrement())
+
+  name          String
+  proteins      Decimal
+  fats          Decimal
+  carbohydrates Decimal
+  energy        Decimal
+
+  foodDishes FoodDishes[]
+}
+
+model FoodDishes {
+  id Int @id @default(autoincrement())
+
+  weight Decimal
+
+  dish   Dish @relation(fields: [dishId], references: [id])
+  dishId Int
+
+  food   Food @relation(fields: [foodId], references: [id])
+  foodId Int
+}
