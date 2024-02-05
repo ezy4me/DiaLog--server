@@ -17,29 +17,26 @@ import {
 } from './_dto/diabetes-type.dto';
 
 @Controller('diabetes-type')
+@UseInterceptors(ClassSerializerInterceptor)
 export class DiabetesTypeController {
   constructor(private readonly diabetesTypeService: DiabetesTypeService) {}
 
   @Get()
-  @UseInterceptors(ClassSerializerInterceptor)
   async findAll() {
     return this.diabetesTypeService.findAll();
   }
 
   @Get(':id')
-  @UseInterceptors(ClassSerializerInterceptor)
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.diabetesTypeService.findOne(id);
   }
 
   @Post()
-  @UseInterceptors(ClassSerializerInterceptor)
   async create(@Body() dto: CreateDiabetesTypeDto) {
     return this.diabetesTypeService.create(dto);
   }
 
   @Patch(':id')
-  @UseInterceptors(ClassSerializerInterceptor)
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateDiabetesTypeDto,
@@ -48,7 +45,6 @@ export class DiabetesTypeController {
   }
 
   @Delete(':id')
-  @UseInterceptors(ClassSerializerInterceptor)
   async delete(@Param('id', ParseIntPipe) id: number) {
     return this.diabetesTypeService.delete(id);
   }
