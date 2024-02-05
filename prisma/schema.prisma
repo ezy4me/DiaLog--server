@@ -48,7 +48,7 @@ model PatientPermisson {
 model Profile {
   id Int @id @default(autoincrement())
 
-  tokjen String  @unique
+  token String  @unique
   name   String
   gender String
   height Decimal
