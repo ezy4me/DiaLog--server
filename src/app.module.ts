@@ -12,7 +12,15 @@ import { InsulinDosageModule } from './insulin-dosage/insulin-dosage.module';
 import { InsulinTypeModule } from './insulin-type/insulin-type.module';
 
 @Module({
-  imports: [DatabaseModule, UserModule, AuthModule, NutritionModule, BloodSugarModule, InsulinDosageModule, InsulinTypeModule],
+  imports: [
+    DatabaseModule,
+    UserModule,
+    AuthModule,
+    NutritionModule,
+    BloodSugarModule,
+    InsulinDosageModule,
+    InsulinTypeModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,

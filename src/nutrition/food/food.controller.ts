@@ -13,12 +13,14 @@ import {
 import { FoodService } from './food.service';
 import { CreateFoodDto, UpdateFoodDto } from './_dto/food.dto';
 import { Food } from '@prisma/client';
+import { Public } from '@app/common/decorators';
 
 @Controller('food')
 @UseInterceptors(ClassSerializerInterceptor)
 export class FoodController {
   constructor(private readonly foodService: FoodService) {}
 
+  @Public()
   @Get()
   async findAll(): Promise<Food[]> {
     return this.foodService.findAll();
