@@ -25,5 +25,8 @@ export class UpdateNutritionDto {
   dishId: number;
 
   @IsNumber()
+  userId: number;
+
+  @IsNumber()
   nutritionTypeId: number;
 }
