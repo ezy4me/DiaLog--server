@@ -11,4 +11,14 @@ export class UserService {
       where: { email },
     });
   }
+
+  async create(email: string, password: string): Promise<User | undefined> {
+    return this.databaseService.user.create({
+      data: {
+        email,
+        password,
+        role: 'USER',
+      },
+    });
+  }
 }

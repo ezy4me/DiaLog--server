@@ -23,6 +23,12 @@ export class AuthController {
     return this.authService.signIn(signInDto.email, signInDto.password);
   }
 
+  @HttpCode(HttpStatus.OK)
+  @Post('reg')
+  signUp(@Body() signUpDto: Record<string, any>) {
+    return this.authService.signUp(signUpDto.email, signUpDto.password);
+  }
+
   @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Request() req) {

@@ -19,4 +19,15 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
+
+  async signUp(email: string, pass: string): Promise<{ access_token: string }> {
+    const _user = await this.usersService.findOne(email);
+    if (_user) {
+      throw new UnauthorizedException(`User with "${email}" already exists`);
+    }
+
+    const user = await this.usersService.create(email, pass);
+
+    return await this.signIn(user.email, user.password);
+  }
 }

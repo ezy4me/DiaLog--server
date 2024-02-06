@@ -7,9 +7,10 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
 import { NutritionModule } from './nutrition/nutrition.module';
+import { BloodSugarModule } from './blood-sugar/blood-sugar.module';
 
 @Module({
-  imports: [DatabaseModule, UserModule, AuthModule, NutritionModule],
+  imports: [DatabaseModule, UserModule, AuthModule, NutritionModule, BloodSugarModule],
   controllers: [AppController],
   providers: [
     AppService,
