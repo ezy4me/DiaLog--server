@@ -19,10 +19,9 @@ model User {
 
   email    String @unique
   password String
-  role     String @unique
+  role     String 
 
   profile   Profile?
-  profileId Int?
 
   insulinDosage              InsulinDosage[]
   bloodSugar                 BloodSugar[]
@@ -51,10 +50,10 @@ model Profile {
   token String  @unique
   name   String
   gender String
-  height Decimal
-  weight Decimal
+  height Float
+  weight Float
 
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int  @unique
 
   diabetesType   DiabetesType @relation(fields: [diabetesTypeId], references: [id])
@@ -76,7 +75,7 @@ model DiabetesType {
 model InsulinDosage {
   id Int @id @default(autoincrement())
 
-  value Decimal
+  value Float
   date  DateTime
   time  DateTime
 
@@ -99,7 +98,7 @@ model InsulinType {
 model BloodSugar {
   id Int @id @default(autoincrement())
 
-  value Decimal
+  value Float
   date  DateTime
   time  DateTime
 
@@ -184,10 +183,10 @@ model Food {
   id Int @id @default(autoincrement())
 
   name          String
-  proteins      Decimal
-  fats          Decimal
-  carbohydrates Decimal
-  energy        Decimal
+  proteins      Float
+  fats          Float
+  carbohydrates Float
+  energy        Float
 
   foodDishes FoodDishes[]
 }
@@ -195,7 +194,7 @@ model Food {
 model FoodDishes {
   id Int @id @default(autoincrement())
 
-  weight Decimal
+  weight Float
 
   dish   Dish @relation(fields: [dishId], references: [id])
   dishId Int

@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
+import { genSaltSync, hashSync } from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -12,13 +13,29 @@ export class UserService {
     });
   }
 
-  async create(email: string, password: string): Promise<User | undefined> {
+  async create(
+    email: string,
+    password: string,
+    role?: string,
+  ): Promise<User | undefined> {
+    const _user = await this.findOne(email);
+
+    if (_user) {
+      throw new ConflictException('User with this email already exists');
+    }
+
+    const userRole = role !== undefined ? role : 'USER';
+
     return this.databaseService.user.create({
       data: {
         email,
-        password,
-        role: 'USER',
+        password: this.hashPassword(password),
+        role: userRole,
       },
     });
+  }
+
+  private hashPassword(password: string) {
+    return hashSync(password, genSaltSync(2));
   }
 }

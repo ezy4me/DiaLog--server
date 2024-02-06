@@ -8,19 +8,19 @@ export class CreateProfileDto {
   name: string;
 
   @IsString()
-  gender: string;
+  gender?: string;
 
   @IsNumber()
-  height: number;
+  height?: number;
 
   @IsNumber()
-  weight: number;
+  weight?: number;
 
   @IsNumber()
   userId: number;
 
   @IsNumber()
-  diabetesTypeId: number;
+  diabetesTypeId?: number;
 }
 
 export class UpdateProfileDto {
