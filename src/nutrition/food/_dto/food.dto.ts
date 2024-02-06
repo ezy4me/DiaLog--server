@@ -5,16 +5,16 @@ export class CreateFoodDto {
   name: string;
 
   @IsNumber()
-  proteins: string;
+  proteins: number;
 
   @IsNumber()
-  fats: string;
+  fats: number;
 
   @IsNumber()
-  carbohydrates: string;
+  carbohydrates: number;
 
   @IsNumber()
-  energy: string;
+  energy: number;
 }
 
 export class UpdateFoodDto {
@@ -22,14 +22,14 @@ export class UpdateFoodDto {
   name: string;
 
   @IsNumber()
-  proteins: string;
+  proteins: number;
 
   @IsNumber()
-  fats: string;
+  fats: number;
 
   @IsNumber()
-  carbohydrates: string;
+  carbohydrates: number;
 
   @IsNumber()
-  energy: string;
+  energy: number;
 }
