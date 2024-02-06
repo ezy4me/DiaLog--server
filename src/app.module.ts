@@ -9,9 +9,10 @@ import { AuthGuard } from './auth/auth.guard';
 import { NutritionModule } from './nutrition/nutrition.module';
 import { BloodSugarModule } from './blood-sugar/blood-sugar.module';
 import { InsulinDosageModule } from './insulin-dosage/insulin-dosage.module';
+import { InsulinTypeModule } from './insulin-type/insulin-type.module';
 
 @Module({
-  imports: [DatabaseModule, UserModule, AuthModule, NutritionModule, BloodSugarModule, InsulinDosageModule],
+  imports: [DatabaseModule, UserModule, AuthModule, NutritionModule, BloodSugarModule, InsulinDosageModule, InsulinTypeModule],
   controllers: [AppController],
   providers: [
     AppService,

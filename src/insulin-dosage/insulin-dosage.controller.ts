@@ -15,6 +15,7 @@ import {
   CreateInsulinDosageDto,
   UpdateInsulinDosageDto,
 } from './_dto/insulin-dosage.dto';
+import { InsulinDosage } from '@prisma/client';
 
 @Controller('insulin-dosage')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -22,17 +23,17 @@ export class InsulinDosageController {
   constructor(private readonly insulinDosageService: InsulinDosageService) {}
 
   @Get()
-  async findAll() {
+  async findAll(): Promise<InsulinDosage[]> {
     return this.insulinDosageService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<InsulinDosage> {
     return this.insulinDosageService.findOne(id);
   }
 
   @Post()
-  async create(@Body() dto: CreateInsulinDosageDto) {
+  async create(@Body() dto: CreateInsulinDosageDto): Promise<InsulinDosage> {
     return this.insulinDosageService.create(dto);
   }
 
@@ -40,12 +41,12 @@ export class InsulinDosageController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateInsulinDosageDto,
-  ) {
+  ): Promise<InsulinDosage> {
     return this.insulinDosageService.update(id, dto);
   }
 
   @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: number) {
+  async delete(@Param('id', ParseIntPipe) id: number): Promise<InsulinDosage> {
     return this.insulinDosageService.delete(id);
   }
 }
