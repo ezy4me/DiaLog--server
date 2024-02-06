@@ -88,6 +88,8 @@ model InsulinDosage {
 
 model InsulinType {
   id            Int             @id @default(autoincrement())
+
+  name String @unique
   insulinDosage InsulinDosage[]
 }
 
