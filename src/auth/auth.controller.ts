@@ -12,18 +12,19 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { Public } from '@app/common/decorators';
 
-@Public()
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
+  @Public()
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
     return this.authService.signIn(signInDto.email, signInDto.password);
   }
 
   @HttpCode(HttpStatus.OK)
+  @Public()
   @Post('reg')
   signUp(@Body() signUpDto: Record<string, any>) {
     return this.authService.signUp(
@@ -35,7 +36,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: any) {
     return req.user;
   }
 }

@@ -14,13 +14,15 @@ export class BloodSugarService {
     return this.databaseService.bloodSugar.findMany();
   }
 
-  async findOne(id: number): Promise<BloodSugar> {
-    const bloodSugar = await this.databaseService.bloodSugar.findUnique({
-      where: { id },
+  async findOne(userId: number): Promise<BloodSugar[]> {
+    const bloodSugar = await this.databaseService.bloodSugar.findMany({
+      where: { userId },
     });
 
     if (!bloodSugar) {
-      throw new NotFoundException(`Blood sugar with id ${id} not found`);
+      throw new NotFoundException(
+        `Blood sugar with userId ${userId} not found`,
+      );
     }
 
     return bloodSugar;

@@ -27,9 +27,11 @@ export class BloodSugarController {
     return this.bloodSugarService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<BloodSugar> {
-    return this.bloodSugarService.findOne(id);
+  @Get(':userId')
+  async findOne(
+    @Param('userId', ParseIntPipe) userId: number,
+  ): Promise<BloodSugar[]> {
+    return this.bloodSugarService.findOne(userId);
   }
 
   @Post()
