@@ -8,6 +8,7 @@ import {
   Param,
   ParseIntPipe,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { BloodSugarService } from './blood-sugar.service';
 import {
@@ -30,8 +31,10 @@ export class BloodSugarController {
   @Get(':userId')
   async findOne(
     @Param('userId', ParseIntPipe) userId: number,
+    @Query('date') dateString: string,
   ): Promise<BloodSugar[]> {
-    return this.bloodSugarService.findOne(userId);
+    const targetDate = dateString ? new Date(dateString) : undefined;
+    return this.bloodSugarService.findOne(userId, targetDate);
   }
 
   @Post()
