@@ -37,10 +37,10 @@ model User {
 model PatientPermisson {
   id Int @id @default(autoincrement())
 
-  doctor   User @relation("DoctorPermissions", fields: [doctorId], references: [id])
+  doctor   User @relation("DoctorPermissions", fields: [doctorId], references: [id], onDelete: Cascade)
   doctorId Int
 
-  patient   User @relation("PatientPermissions", fields: [patientId], references: [id])
+  patient   User @relation("PatientPermissions", fields: [patientId], references: [id], onDelete: Cascade)
   patientId Int
 }
 
@@ -56,7 +56,7 @@ model Profile {
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int  @unique
 
-  diabetesType   DiabetesType @relation(fields: [diabetesTypeId], references: [id])
+  diabetesType   DiabetesType @relation(fields: [diabetesTypeId], references: [id], onDelete: Cascade)
   diabetesTypeId Int
 }
 
@@ -79,10 +79,10 @@ model InsulinDosage {
   date  DateTime
   time  DateTime
 
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
-  insulinType   InsulinType @relation(fields: [insulinTypeId], references: [id])
+  insulinType   InsulinType @relation(fields: [insulinTypeId], references: [id], onDelete: Cascade)
   insulinTypeId Int
 }
 
@@ -104,7 +104,7 @@ model BloodSugar {
   date  DateTime
   time  DateTime
 
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 }
 
@@ -115,10 +115,10 @@ model BloodSugar {
 model Chat {
   id Int @id @default(autoincrement())
 
-  doctor   User @relation("DoctorChat", fields: [doctorId], references: [id])
+  doctor   User @relation("DoctorChat", fields: [doctorId], references: [id], onDelete: Cascade)
   doctorId Int
 
-  patient     User          @relation("PatientChat", fields: [patientId], references: [id])
+  patient     User          @relation("PatientChat", fields: [patientId], references: [id], onDelete: Cascade)
   patientId   Int
   chatHistory ChatHistory?
 }
@@ -126,9 +126,9 @@ model Chat {
 model ChatHistory {
   id Int @id @default(autoincrement())
 
-  message   Message @relation(fields: [messageId], references: [id])
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
   messageId Int @unique
-  chat      Chat    @relation(fields: [chatId], references: [id])
+  chat      Chat    @relation(fields: [chatId], references: [id], onDelete: Cascade)
   chatId    Int @unique
 }
 
@@ -138,7 +138,7 @@ model Message {
   text     String
   dateTime DateTime
 
-  user        User          @relation(fields: [userId], references: [id])
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
   chatHistory ChatHistory?
 }
@@ -153,10 +153,10 @@ model Nutrition {
   date DateTime
   time DateTime
 
-  dish   Dish @relation(fields: [dishId], references: [id])
+  dish   Dish @relation(fields: [dishId], references: [id], onDelete: Cascade)
   dishId Int
 
-  nutritionType   NutritionType @relation(fields: [nutritionTypeId], references: [id])
+  nutritionType   NutritionType @relation(fields: [nutritionTypeId], references: [id], onDelete: Cascade)
   nutritionTypeId Int
 }
 
@@ -174,7 +174,7 @@ model Dish {
   name   String
   status Boolean
 
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
   foodDishes FoodDishes[]
@@ -198,9 +198,9 @@ model FoodDishes {
 
   weight Float
 
-  dish   Dish @relation(fields: [dishId], references: [id])
+  dish   Dish @relation(fields: [dishId], references: [id], onDelete: Cascade)
   dishId Int
 
-  food   Food @relation(fields: [foodId], references: [id])
+  food   Food @relation(fields: [foodId], references: [id], onDelete: Cascade)
   foodId Int
 }

@@ -49,8 +49,6 @@ export class BloodSugarService {
   }
 
   async update(id: number, dto: UpdateBloodSugarDto): Promise<BloodSugar> {
-    await this.findOne(id);
-
     return this.databaseService.bloodSugar.update({
       where: { id },
       data: { ...dto },
@@ -58,8 +56,6 @@ export class BloodSugarService {
   }
 
   async delete(id: number): Promise<BloodSugar> {
-    await this.findOne(id);
-
     return this.databaseService.bloodSugar.delete({
       where: { id },
     });
