@@ -8,6 +8,7 @@ import {
   Param,
   ParseIntPipe,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { InsulinDosageService } from './insulin-dosage.service';
 import { ClassSerializerInterceptor } from '@nestjs/common';
@@ -27,9 +28,13 @@ export class InsulinDosageController {
     return this.insulinDosageService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<InsulinDosage> {
-    return this.insulinDosageService.findOne(id);
+  @Get(':userId')
+  async findOne(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Query('date') dateString: string,
+  ): Promise<InsulinDosage[]> {
+    const targetDate = dateString ? new Date(dateString) : undefined;
+    return this.insulinDosageService.findOne(userId, targetDate);
   }
 
   @Post()
