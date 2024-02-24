@@ -8,12 +8,15 @@ export class DishService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async findAll(): Promise<Dish[]> {
-    return this.databaseService.dish.findMany();
+    return this.databaseService.dish.findMany({
+      include: { foodDishes: { include: { food: true } } },
+    });
   }
 
   async findOne(id: number): Promise<Dish> {
     const dish = await this.databaseService.dish.findUnique({
       where: { id },
+      include: { foodDishes: { include: { food: true } } },
     });
 
     if (!dish) {
