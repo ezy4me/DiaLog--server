@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Nutrition } from '@prisma/client';
 import { CreateNutritionDto, UpdateNutritionDto } from './_dto/nutrition.dto';
 import { DatabaseService } from 'src/database/database.service';
+import { endOfDay, startOfDay } from 'date-fns';
 
 @Injectable()
 export class NutritionService {
@@ -23,9 +24,40 @@ export class NutritionService {
     return nutrition;
   }
 
-  async findAllByUserId(id: number): Promise<Nutrition[]> {
+  async findAllByUserId(id: number, targetDate: string): Promise<Nutrition[]> {
+    if (targetDate) {
+      console.log(targetDate);
+
+      const startOfTargetDate = startOfDay(targetDate);
+      const endOfTargetDate = endOfDay(targetDate);
+
+      const test = await this.databaseService.nutrition.findMany({
+        where: {
+          dish: { userId: id },
+          date: { gte: startOfTargetDate, lte: endOfTargetDate },
+        },
+        include: {
+          nutritionType: true,
+          dish: {
+            include: {
+              foodDishes: {
+                include: {
+                  food: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: { date: 'asc' },
+      });
+
+      return test;
+    }
+
     const nutrition = await this.databaseService.nutrition.findMany({
-      where: { dish: { userId: id } },
+      where: {
+        dish: { userId: id },
+      },
       include: {
         nutritionType: true,
         dish: {
@@ -38,6 +70,7 @@ export class NutritionService {
           },
         },
       },
+      orderBy: { date: 'asc' },
     });
 
     if (!nutrition) {

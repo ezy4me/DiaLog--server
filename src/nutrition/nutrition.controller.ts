@@ -9,6 +9,7 @@ import {
   Param,
   ParseIntPipe,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { NutritionService } from './nutrition.service';
 import { CreateNutritionDto, UpdateNutritionDto } from './_dto/nutrition.dto';
@@ -29,8 +30,11 @@ export class NutritionController {
   }
 
   @Get('/user/:id')
-  async findAllByUserId(@Param('id', ParseIntPipe) id: number) {
-    return this.nutritionService.findAllByUserId(id);
+  async findAllByUserId(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('date') dateString: string,
+  ) {
+    return this.nutritionService.findAllByUserId(id, dateString);
   }
 
   @Post()

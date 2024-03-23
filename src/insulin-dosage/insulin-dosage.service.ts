@@ -19,13 +19,16 @@ export class InsulinDosageService {
     if (targetDate) {
       const startOfTargetDate = startOfDay(targetDate);
       const endOfTargetDate = endOfDay(targetDate);
-      return this.databaseService.insulinDosage.findMany({
+      const test = await this.databaseService.insulinDosage.findMany({
         where: {
           userId,
           date: { gte: startOfTargetDate, lte: endOfTargetDate },
         },
         orderBy: { date: 'asc' },
       });
+
+      console.log(test);
+      return test;
     }
 
     const insulinDosage = await this.databaseService.insulinDosage.findMany({
