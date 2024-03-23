@@ -9,6 +9,8 @@ export class CreateDishDto {
 
   @IsNumber()
   userId: number;
+
+  foodDishes?: any;
 }
 
 export class UpdateDishDto {
@@ -20,4 +22,6 @@ export class UpdateDishDto {
 
   @IsNumber()
   userId: number;
+
+  foodDishes?: any;
 }
