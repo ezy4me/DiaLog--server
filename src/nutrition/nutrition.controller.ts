@@ -28,6 +28,11 @@ export class NutritionController {
     return this.nutritionService.findOne(id);
   }
 
+  @Get('/user/:id')
+  async findAllByUserId(@Param('id', ParseIntPipe) id: number) {
+    return this.nutritionService.findAllByUserId(id);
+  }
+
   @Post()
   async create(@Body() dto: CreateNutritionDto) {
     return this.nutritionService.create(dto);

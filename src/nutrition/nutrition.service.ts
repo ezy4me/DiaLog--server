@@ -23,6 +23,30 @@ export class NutritionService {
     return nutrition;
   }
 
+  async findAllByUserId(id: number): Promise<Nutrition[]> {
+    const nutrition = await this.databaseService.nutrition.findMany({
+      where: { dish: { userId: id } },
+      include: {
+        nutritionType: true,
+        dish: {
+          include: {
+            foodDishes: {
+              include: {
+                food: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!nutrition) {
+      throw new NotFoundException(`Nutrition with id ${id} not found`);
+    }
+
+    return nutrition;
+  }
+
   async create(dto: CreateNutritionDto): Promise<Nutrition> {
     return this.databaseService.nutrition.create({
       data: { ...dto },
