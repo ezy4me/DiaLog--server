@@ -24,7 +24,7 @@ export class NutritionService {
     return nutrition;
   }
 
-  async findAllByUserId(id: number, targetDate: string): Promise<Nutrition[]> {
+  async findAllByUserId(id: number, targetDate: Date): Promise<Nutrition[]> {
     if (targetDate) {
       console.log(targetDate);
 

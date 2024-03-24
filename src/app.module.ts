@@ -10,6 +10,7 @@ import { NutritionModule } from './nutrition/nutrition.module';
 import { BloodSugarModule } from './blood-sugar/blood-sugar.module';
 import { InsulinDosageModule } from './insulin-dosage/insulin-dosage.module';
 import { InsulinTypeModule } from './insulin-type/insulin-type.module';
+import { DoctorModule } from './doctor/doctor.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { InsulinTypeModule } from './insulin-type/insulin-type.module';
     BloodSugarModule,
     InsulinDosageModule,
     InsulinTypeModule,
+    DoctorModule,
   ],
   controllers: [AppController],
   providers: [
