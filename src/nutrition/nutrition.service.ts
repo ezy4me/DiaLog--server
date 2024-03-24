@@ -24,10 +24,8 @@ export class NutritionService {
     return nutrition;
   }
 
-  async findAllByUserId(id: number, targetDate: Date): Promise<Nutrition[]> {
+  async findAllByUserId(id: number, targetDate: string): Promise<Nutrition[]> {
     if (targetDate) {
-      console.log(targetDate);
-
       const startOfTargetDate = startOfDay(targetDate);
       const endOfTargetDate = endOfDay(targetDate);
 

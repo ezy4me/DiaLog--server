@@ -11,6 +11,7 @@ import { BloodSugarModule } from './blood-sugar/blood-sugar.module';
 import { InsulinDosageModule } from './insulin-dosage/insulin-dosage.module';
 import { InsulinTypeModule } from './insulin-type/insulin-type.module';
 import { DoctorModule } from './doctor/doctor.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { DoctorModule } from './doctor/doctor.module';
     InsulinDosageModule,
     InsulinTypeModule,
     DoctorModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [

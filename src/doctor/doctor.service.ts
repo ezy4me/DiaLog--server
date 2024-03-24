@@ -33,6 +33,13 @@ export class DoctorService {
           patientId: profile.userId,
         },
       });
+
+      await this.databaseServise.chat.create({
+        data: {
+          doctorId,
+          patientId: profile.userId,
+        },
+      });
     }
   }
 

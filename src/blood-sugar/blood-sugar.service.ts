@@ -17,8 +17,6 @@ export class BloodSugarService {
 
   async findOne(userId: number, targetDate?: Date): Promise<BloodSugar[]> {
     if (targetDate) {
-      console.log(targetDate);
-
       const startOfTargetDate = startOfDay(targetDate);
       const endOfTargetDate = endOfDay(targetDate);
       const test = await this.databaseService.bloodSugar.findMany({
@@ -29,7 +27,6 @@ export class BloodSugarService {
         orderBy: { date: 'asc' },
       });
 
-      console.log(test);
       return test;
     }
 

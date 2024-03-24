@@ -27,7 +27,6 @@ export class InsulinDosageService {
         orderBy: { date: 'asc' },
       });
 
-      console.log(test);
       return test;
     }
 

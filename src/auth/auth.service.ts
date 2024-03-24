@@ -20,8 +20,6 @@ export class AuthService {
   ): Promise<{ access_token: string; user: User }> {
     const user = await this.usersService.findOne(email);
 
-    console.log(user);
-
     if (!user || !compareSync(pass, user.password)) {
       throw new UnauthorizedException();
     }
