@@ -13,6 +13,29 @@ export class DoctorService {
     private readonly nutritionService: NutritionService,
   ) {}
 
+  async createPermission(doctorId: number, token: string) {
+    const profile = await this.databaseServise.profile.findFirst({
+      where: {
+        token,
+      },
+    });
+
+    const isExist = await this.databaseServise.patientPermisson.findFirst({
+      where: {
+        patientId: profile.userId,
+      },
+    });
+
+    if (!isExist) {
+      await this.databaseServise.patientPermisson.create({
+        data: {
+          doctorId,
+          patientId: profile.userId,
+        },
+      });
+    }
+  }
+
   private async isDoctor(userId: number): Promise<boolean> {
     const user = await this.databaseServise.user.findFirst({
       where: { id: userId },
@@ -44,8 +67,6 @@ export class DoctorService {
   }
 
   async findPatientInfo(patientId: number, targetDate?: any) {
-    console.log(targetDate);
-
     const bloodSugar = await this.bloodSugaService.findOne(
       patientId,
       targetDate,

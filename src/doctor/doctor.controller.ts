@@ -2,7 +2,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
-  //   Post,
+  Post,
   //   Patch,
   //   Delete,
   //   Body,
@@ -31,14 +31,17 @@ export class DoctorController {
     return this.doctorService.findPatientInfo(patientId, dateString);
   }
 
+  @Post('/:doctorId')
+  async create(
+    @Param('doctorId', ParseIntPipe) doctorId: number,
+    @Query('token') token: string,
+  ) {
+    return this.doctorService.createPermission(doctorId, token);
+  }
+
   //   @Get(':id')
   //   async findOne(@Param('id', ParseIntPipe) id: number): Promise<Dish> {
   //     return this.doctorService.findOne(id);
-  //   }
-
-  //   @Post()
-  //   async create(@Body() dto): Promise<Dish> {
-  //     return this.doctorService.create(dto);
   //   }
 
   //   @Patch(':id')
