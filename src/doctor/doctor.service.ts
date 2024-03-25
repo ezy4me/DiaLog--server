@@ -34,13 +34,36 @@ export class DoctorService {
         },
       });
 
-      await this.databaseServise.chat.create({
-        data: {
-          doctorId,
+      const chat = await this.databaseServise.chat.findMany({
+        where: {
           patientId: profile.userId,
         },
       });
+
+      if (!chat) {
+        await this.databaseServise.chat.create({
+          data: {
+            doctorId,
+            patientId: profile.userId,
+          },
+        });
+      }
     }
+  }
+
+  async deletePermission(doctorId: number, patientId: number) {
+    const permission = await this.databaseServise.patientPermisson.findMany({
+      where: {
+        doctorId,
+        patientId,
+      },
+    });
+
+    return this.databaseServise.patientPermisson.delete({
+      where: {
+        id: permission[0].id,
+      },
+    });
   }
 
   private async isDoctor(userId: number): Promise<boolean> {

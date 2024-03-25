@@ -3,9 +3,7 @@ import {
   Controller,
   Get,
   Post,
-  //   Patch,
-  //   Delete,
-  //   Body,
+  Delete,
   Param,
   ParseIntPipe,
   Query,
@@ -52,8 +50,11 @@ export class DoctorController {
   //     return this.doctorService.update(id, dto);
   //   }
 
-  //   @Delete(':id')
-  //   async delete(@Param('id', ParseIntPipe) id: number): Promise<Dish> {
-  //     return this.doctorService.delete(id);
-  //   }
+  @Delete()
+  async delete(
+    @Query('doctorId', ParseIntPipe) doctorId: number,
+    @Query('patientId', ParseIntPipe) patientId: number,
+  ) {
+    return this.doctorService.deletePermission(doctorId, patientId);
+  }
 }
