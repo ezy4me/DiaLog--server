@@ -40,7 +40,9 @@ export class DoctorService {
         },
       });
 
-      if (!chat) {
+      if (!chat[0]) {
+        console.log(1);
+
         await this.databaseServise.chat.create({
           data: {
             doctorId,

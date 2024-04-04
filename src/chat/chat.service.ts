@@ -7,8 +7,6 @@ export class ChatService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async createMessage(dto: MessageDto) {
-    console.log(dto);
-
     const message = await this.databaseService.message.create({
       data: {
         text: dto.text,

@@ -38,4 +38,32 @@ export class UserService {
   private hashPassword(password: string) {
     return hashSync(password, genSaltSync(2));
   }
+
+  async findUserDoctor(userId: number) {
+    return this.databaseService.patientPermisson.findMany({
+      where: {
+        patientId: userId,
+      },
+      include: {
+        doctor: {
+          select: {
+            email: true,
+            profile: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async deleteUserInfo(userId: number) {
+    return this.databaseService.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+  }
 }
